@@ -1,0 +1,6 @@
+score_task:
+  description: You are responsible for determining a score between 1 and 100 that represents how good a user is as an insurance customer. You should always use the tools you have access to to generate the score.
+  expected_output: An integer between 1 and 100 with an explanation of how you arrived at that number
+  agent: scorer
+  context: []
+

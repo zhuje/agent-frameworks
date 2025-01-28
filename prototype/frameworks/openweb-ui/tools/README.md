@@ -21,10 +21,11 @@ We'll use the `open-webui` [tools documentation](https://docs.openwebui.com/feat
 4. Enter the IP address of your OpenWebUI instance and click `Import to WebUI` to import the Tool.
 
 **Note:** You can install your own Tools using the manual import method.
+The Tools format is very simple, it's a python script.
 
 **Warning:** Do not import Tools you do not understand or are not from a trustworthy source.
 
-### Example: Scorer & Approver 
+### Tools Overview 
 
 I installed the [run_code](https://openwebui.com/t/etienneperot/run_code/) tool (what could go wrong?)
 as mentioned above. Here's a screenshot of when I tried to run code in the containerized (in OpenShift) environment:
@@ -33,4 +34,15 @@ as mentioned above. Here's a screenshot of when I tried to run code in the conta
 
 I wasn't expecting the sandbox to work out-of-the-box but thought I'd give it a try.
 
-**TODO: Need to finish**
+Here is a view of the Tools Dashboard. Here you can Import, Edit, Add, Delete, and Export Tools. 
+It's also easy to edit or clone already uploaded Tools.
+
+![tools view](../images/tools-view.png)
+
+## Scorer and Approver Agents
+
+Open-WebUI calls `agents` `models`. You can create a new `model` from the UI by filling out a form.
+Here is where you start with a base model and give it access to tools from your list of Tools. You also customize
+the prompts.
+
+![Agent model view](../images/agent-model-view.png)

@@ -38,16 +38,16 @@ spec:
         - name: open-webui
           image: ghcr.io/open-webui/open-webui:main
           env:
-            #- name: GOOGLE_PSE_ENGINE_ID
-            #  valueFrom:
-            #    secretKeyRef:
-            #      name: open-webui-google-pse
-            #      key: google_pse_engine_id
-            #- name: GOOGLE_PSE_API_KEY
-            #  valueFrom:
-            #    secretKeyRef:
-            #      name: open-webui-google-pse
-            #      key: google_pse_api_key
+            - name: GOOGLE_PSE_ENGINE_ID
+              valueFrom:
+                secretKeyRef:
+                  name: open-webui-google-pse
+                  key: google_pse_engine_id
+            - name: GOOGLE_PSE_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: open-webui-google-pse
+                  key: google_pse_api_key
             - name: ENABLE_SIGNUP
               value: "true"
             - name: AIOHTTP_CLIENT_TIMEOUT
@@ -59,14 +59,14 @@ spec:
             - name: ENABLE_RAG_WEB_SEARCH
               value: "true"
             - name: RAG_WEB_SEARCH_ENGINE
-              #value: "google_pse"
-              value: duckduckgo
+              value: "google_pse"
+              #value: duckduckgo
             - name: OPENAI_API_BASE_URL
-              value: "https://mixtral-mixtral-serve.apps.ocp-beta-test.nerc.mghpcc.org/v1"
+              value: "https://mistral-mistral-serve.apps.ocp-beta-test.nerc.mghpcc.org/v1"
             - name: OPENAI_API_KEY
               valueFrom:
                 secretKeyRef:
-                  name: mixtral-vllm-key
+                  name: mistral-vllm-key
                   key: api_key
             # UPDATE THIS and uncomment
             - name: WEBUI_URL

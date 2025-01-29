@@ -1,0 +1,14 @@
+[project]
+name = "pydantic_ai_demo"
+version = "0.0.0"
+dependencies = [
+    "pydantic_ai",
+    "fastapi",
+    "streamlit"
+]
+requires-python = "== 3.12.*"
+
+[dependency-groups]
+dev = [
+    "ruff>=0.9.3",
+]

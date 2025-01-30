@@ -1,4 +1,4 @@
-## Run Open-WebUI in local container
+## Run Open WebUI in local container
 
 TODO: FINISH THIS
 

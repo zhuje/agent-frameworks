@@ -1,9 +1,9 @@
-## Open-WebUI as an AI Agent framework
+## Open WebUI as an AI Agent framework
 
 [Tim Baek, the founder of Open WebUI, shows why his project has over 3M downloads and 50K GitHub
 stars.](https://youtu.be/-yyMSBARfgM?si=xriJzGZsZvDVI3Hz)
 
-## AI Platform on OpenShift: Open-WebUI
+## AI Platform on OpenShift: Open WebUI
 
 If you've checked out [open-webui](https://docs.openwebui.com/) chances are you got up and running quickly with `ollama`. `open-webui` has a ton of
 cool features like enabling web-search and RAG with chats. There is also a community maintained [`Tools` and `Functions`

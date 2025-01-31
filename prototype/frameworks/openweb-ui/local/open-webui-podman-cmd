@@ -1,0 +1,11 @@
+podman run --rm -d --name webui-pod \
+  --network=host \
+  --ipc=host \
+  --security-opt label=disable \
+  -e ENABLE_OLLAMA_API="false" \
+  -e WEBUI_AUTH="false" \
+  -e PORT="8001" \
+  -e OPENAI_API_BASE_URL="http://0.0.0.0:8000/v1" \
+  -e OPENAI_API_KEY="empty" \
+  -v /home/cloud-user/.local/share/openwebui:/app/backend/data \
+  ghcr.io/open-webui/open-webui:main

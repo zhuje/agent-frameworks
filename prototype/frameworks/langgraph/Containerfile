@@ -1,0 +1,15 @@
+FROM python:3.9-slim
+
+WORKDIR /app
+COPY requirements.txt ./
+RUN pip install --no-cache-dir -r requirements.txt
+
+COPY . /app
+
+# Expose the ports for FastAPI (8000) and Streamlit (8501)
+EXPOSE 8000
+EXPOSE 8501
+
+# Run the FastAPI server and Streamlit client
+CMD uvicorn fastapi_server:app --host 0.0.0.0 --port 8000 & \
+    streamlit run streamlit_client.py --server.address=0.0.0.0 --server.port=8501

@@ -9,7 +9,6 @@ This project demonstrates an AI-driven insurance workflow using **FastAPI**, **S
 - [Installation](#installation)
 - [Running the Application](#running-the-application)
 - [API Endpoints](#api-endpoints)
-- [Deployment to OpenShift](#deployment-to-openshift)
 - [License](#license)
 
 ---
@@ -114,29 +113,6 @@ curl -X POST "http://localhost:8005/run_insurance_workflow/" \
   ]
 }
 ```
-
----
-
-## Deployment to OpenShift
-### 1. Build the Docker image
-```sh
-docker build -t your-registry/insurance-workflow:latest .
-```
-
-### 2. Push the image to your container registry
-```sh
-docker push your-registry/insurance-workflow:latest
-```
-
-### 3. Deploy to OpenShift
-```sh
-oc new-app your-registry/insurance-workflow:latest
-oc expose svc/insurance-workflow
-```
-
-### 4. Access the application
-- **Streamlit UI:** `https://your-openshift-route`
-- **FastAPI API:** `https://your-openshift-route/api`
 
 ---
 

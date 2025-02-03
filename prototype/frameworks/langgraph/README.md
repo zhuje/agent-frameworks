@@ -10,37 +10,37 @@ This project demonstrates an AI-driven insurance workflow using **FastAPI**, **S
 - [Running the Application](#running-the-application)
 - [API Endpoints](#api-endpoints)
 - [License](#license)
+- [Contributors](#contributors)
 
 ---
 
 ## Overview
 This application provides:
-1. A **Streamlit UI** where users can submit insurance applications.
+1. A **Streamlit UI** where users can submit insurance applications and interact with the chatbot.
 2. A **FastAPI backend** that:
    - Defines and manages Agents, Tools, and Workflows.
    - Runs a **LangGraph-based AI workflow** for evaluating insurance eligibility.
-3. A **Dockerized deployment** setup for OpenShift.
 
 ---
 
 ## Features
 - **AI-powered insurance approval process** using LangGraph and ChatOllama.
 - **Workflow automation** with a decision-making pipeline:
-  - *Insurance Specialist* decides if scoring is required.
-  - *Scorer* generates a random insurability score (1-100).
+  - *Scorer* generates a random insurability score (0-100).
   - *Approver* approves or denies based on a score threshold (>50).
 - **FastAPI for backend** to manage agents, tools, and workflows.
-- **Streamlit for frontend UI** to submit insurance requests.
-- **Deployable on OpenShift** as a containerized application.
+- **Streamlit for frontend UI** to submit insurance requests and interact with the chatbot.
+- **Session-based interactions** allowing users to have multiple independent conversations.
 
 ---
 
 ## Technology Stack
-- **FastAPI** (REST API framework)
-- **Streamlit** (Frontend UI)
+- **FastAPI** (Backend API framework)
+- **Streamlit** (Frontend UI for interaction)
 - **LangGraph** (Graph-based AI workflow execution)
 - **Ollama Chat** (LLM model integration)
-- **Docker** (Containerization for deployment)
+- **Pydantic** (Data validation)
+- **Uvicorn** (ASGI server for FastAPI)
 
 ---
 
@@ -63,12 +63,15 @@ venv\Scripts\activate    # For Windows
 pip install -r requirements.txt
 ```
 
+### 4. Set up environment variables
+Rename `sample.env` to `.env` and update values as needed.
+
 ---
 
 ## Running the Application
 ### 1. Start the FastAPI server
 ```sh
-python fastapi_server.py
+python server.py
 ```
 
 ### 2. Start the Streamlit frontend
@@ -83,36 +86,34 @@ streamlit run streamlit_client.py
 ---
 
 ## API Endpoints
-### 1. Root Endpoint
-- **GET /** → `{"msg": "Hello from Insurance Automation FastAPI!"}`
+### 1. Start a new session
+- **POST /start-session/** → Creates a new chat session and returns session ID with initial messages.
 
-### 2. Manage Agents, Tools, Workflows
-- **POST /definitions/agents/** → Create an agent
-- **GET /definitions/agents/** → List all agents
-- **POST /definitions/tools/** → Create a tool
-- **GET /definitions/tools/** → List all tools
-- **POST /definitions/workflows/** → Create a workflow
-- **GET /definitions/workflows/** → List all workflows
-
-### 3. Run the Insurance Workflow
-- **POST /run_insurance_workflow/** → Runs the insurance workflow and returns AI messages
+### 2. Send a message
+- **POST /chat/** → Sends a user message and processes AI responses.
 
 #### Example Request:
 ```sh
-curl -X POST "http://localhost:8005/run_insurance_workflow/" \
+curl -X POST "http://localhost:8005/chat" \
      -H "Content-Type: application/json" \
-     -d '{"user_input": "I would like to apply for insurance."}'
+     -d '{"session_id": "your-session-id", "message": "I would like to apply for insurance."}'
 ```
+
 #### Example Response:
 ```json
 {
+  "session_id": "your-session-id",
   "messages": [
-    "The Scorer will now determine your insurability score.",
-    "Generated insurability score: 65. Sending to Approver...",
-    "✅ Approved! Your insurability score of 65 qualifies you for insurance."
+    {"role": "human", "content": "I would like to apply for insurance."},
+    {"role": "assistant", "content": "The Scorer will now determine your insurability score."},
+    {"role": "assistant", "content": "Generated insurability score: 65. Sending to Approver..."},
+    {"role": "assistant", "content": "✅ Approved! Your insurability score of 65 qualifies you for insurance."}
   ]
 }
 ```
+
+### 3. Retrieve session messages
+- **GET /session/{session_id}** → Returns the chat history of a specific session.
 
 ---
 
@@ -124,3 +125,4 @@ This project is licensed under the MIT License. See `LICENSE` for details.
 ## Contributors
 - [Kevin Cogan](https://github.com/kevincogan)
 - [Hema Veeradhi](https://github.com/hemajv)
+

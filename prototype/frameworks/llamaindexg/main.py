@@ -7,7 +7,7 @@ from llama_index.llms.ollama import Ollama
 from llama_index.core.agent import FunctionCallingAgentWorker, AgentRunner
 
 # Load the model name from environment variables
-MODEL_NAME = os.environ.get("LLAMA_MODEL_NAME", "mistral")  # Default to "mistral" if not set
+MODEL_NAME = os.environ.get("MODEL_NAME", "mistral")  # Default to "mistral" if not set
 
 # Initialize the LLM model dynamically based on environment variable
 llm = Ollama(model=MODEL_NAME)

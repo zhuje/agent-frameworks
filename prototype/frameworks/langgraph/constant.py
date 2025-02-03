@@ -8,6 +8,7 @@ FAST_API_RELOAD=os.environ.get("FAST_API_RELOAD", True)
 # Ollama Model configuration
 MODEL_NAME=os.environ.get("MODEL_NAME", "llama3-groq-tool-use:8b-q8_0")
 BASE_URL=os.environ.get("BASE_URL", "http://localhost:11434")
+API_KEY=os.environ.get("API_KEY", None)
 MODEL_TEMPERATURE=0
 
 

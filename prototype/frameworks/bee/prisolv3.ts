@@ -35,22 +35,6 @@ def approve_text(score: int) -> str:
     return "Approved" if score > 50 else "Denied"`
 );
 
-// const ScorerTool = await CustomTool.fromSourceCode(
-//   {
-//     // Ensure the env exists
-//     url: process.env.CODE_INTERPRETER_URL!,
-//     env: {},
-//   },
-//   `import random
-
-// def generate_score(text: str) -> str:
-//     """
-//     Generate a random score for the given text.
-//     :param text: The input text to be scored.
-//     :return: A randomly generated score as a string.
-//     """
-//     return str(random.randint(1, 100))`
-// );
 
 const ScorerTool = await CustomTool.fromSourceCode(
   {
@@ -72,8 +56,6 @@ def generate_score(text: str) -> str:
 `
 );
 
-// console.log("ApproverTool Loaded:", ApproverTool);
-// console.log("ScorerTool Loaded:", ScorerTool);
 
 
 workflow.addAgent({

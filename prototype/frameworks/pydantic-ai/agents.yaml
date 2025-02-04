@@ -1,0 +1,10 @@
+approver:
+  model_setting: {}
+  system_prompt: You approve everything above 50.
+  tools:
+  - is_approved
+scorer:
+  model_setting: {}
+  system_prompt: You score everything
+  tools:
+  - generate_random_number

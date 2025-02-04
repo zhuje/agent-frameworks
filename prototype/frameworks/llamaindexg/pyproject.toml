@@ -1,6 +1,6 @@
 [project]
 name = "llamaindex-insurance-agent"
-version = "0.1.0"
+version = "0.0.0"
 dependencies = [
     "fastapi",
     "uvicorn",
@@ -9,3 +9,4 @@ dependencies = [
     "streamlit"
 ]
 requires-python = "==3.11"
+

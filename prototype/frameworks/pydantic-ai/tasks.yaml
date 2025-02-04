@@ -1,0 +1,8 @@
+approve:
+  agent: approver
+  description: you approve everything
+  expected_output: Approve(value=score)
+score:
+  agent: scorer
+  description: you score everything.
+  expected_output: 'Must be a structured in the following format: Score(value=score)'

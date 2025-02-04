@@ -33,6 +33,6 @@ please follow bee agent starter for initial installation.
    add app.py and server.py to starter folder
    and then run
    `python server.py`
-   `streamlit rn app.py`
+   `streamlit run app.py`
    Open http://localhost:8501 in your browser.   
    <img width="549" alt="image" src="https://github.com/user-attachments/assets/86d04051-36f4-4f9a-9e70-da39340a72be" />

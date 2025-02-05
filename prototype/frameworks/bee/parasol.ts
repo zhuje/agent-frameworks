@@ -4,16 +4,21 @@ import { AgentWorkflow } from "bee-agent-framework/experimental/workflows/agent"
 import { BaseMessage, Role } from "bee-agent-framework/llms/primitives/message";
 import { GroqChatLLM } from "bee-agent-framework/adapters/groq/chat";
 import { CustomTool } from "bee-agent-framework/tools/custom";
-import fs from "fs";
+import express from "express";
+import type { Request, Response } from "express";
 
+const app = express();
+app.use(express.json()); // Parse JSON request bodies
+
+const memory = new UnconstrainedMemory(); // Store conversation history
 
 const workflow = new AgentWorkflow();
 
 // Define the LLMs, calling the GroqChatLLM constructor with the modelId
 const chatLLM1 = new GroqChatLLM({ 
-  modelId: "gemma2-9b-it"  
+  // modelId: "gemma2-9b-it"  
   // modelId: "mixtral-8x7b-32768"
-  // modelId: "deepseek-r1-distill-llama-70b"
+  modelId: "deepseek-r1-distill-llama-70b"
 });
 
 const chatLLM2 = new GroqChatLLM({
@@ -77,43 +82,49 @@ workflow.addAgent({
 });
 
 
-const inputFile = "input.json";
-let userInput = "";
+app.get("/", (req, res) => {
+  res.send("✅ Express Server is Running!");
+});
 
-// Read input from input.json file
-if (fs.existsSync(inputFile)) {
-  const data = fs.readFileSync(inputFile, "utf-8");
-  userInput = JSON.parse(data).text;
-} else {
-  console.error("No input file found.");
-  process.exit(1);
-}
+// 📌 **RESTful API Endpoint (Replaces Console Input)**
+app.post("/evaluate", async (req: Request, res: Response): Promise<void> => {
+  try {
+    const { text } = req.body;
+    if (!text) {
+      res.status(400).json({ error: "Missing 'text' in request body" });
+      return;
+    }
 
-const memory = new UnconstrainedMemory();
-// Add the user input to the memory
-await memory.add(
-  BaseMessage.of({
-    role: Role.USER,
-    text: userInput,
-    meta: { createdAt: new Date() },
-  }),
-);
+    // Store user input in memory
+    await memory.add(
+      BaseMessage.of({
+        role: Role.USER,
+        text,
+        meta: { createdAt: new Date() },
+      }),
+    );
 
-const { result } = await workflow.run(memory.messages);
+    // **Streaming Responses**
+    let responseData = { thinking_process: [] as string[], result: "" };
 
-await memory.addMany(result.newMessages);
+    const { result } = await workflow.run(memory.messages).observe((emitter) => {
+      emitter.on("success", (data) => {
+        responseData.thinking_process.push(`-> ${data.step}: ${data.response?.update?.finalAnswer ?? "-"}`);
+      });
+    });
 
-// Extract the steps and final answer from the result
-const steps = result.newMessages.map(msg => `${msg.text}`);
+    await memory.addMany(result.newMessages);
 
-// Write the output to output.json file
-if (!result.finalAnswer) {
-  fs.writeFileSync("output.json", JSON.stringify({ error: "No valid response from AI" }, null, 2));
-} else {
-  fs.writeFileSync("output.json", JSON.stringify({
-    thinking_process: steps,
-    result: result.finalAnswer
-  }, null, 2));
-}
+    responseData.result = result.finalAnswer || "No valid response from AI";
 
+    res.json(responseData);
+  } catch (error) {
+    console.error("Error processing request:", error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
 
+const PORT = process.env.PORT || 3000;
+app.listen(PORT, () => {
+  console.log(`✅ Server is running on http://localhost:${PORT}`);
+});

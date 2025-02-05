@@ -27,12 +27,10 @@ This is a customized parasol agentic workflow under bee agent framework [officia
 [Bee Agent Framework Starter]([https://github.com/i-am-bee/bee-agent-framework](https://github.com/i-am-bee/bee-agent-framework-starter)), 
 please follow bee agent starter for initial installation.
 
-2. add custom parasol workflow `parasolv3.ts` or `parasolv5.ts` into the src folder
-3. run `npm run start src/parasolv3.ts` to play with parasol demo through terminal
-4. if you want to play through a easy UI.
-   add app.py and server.py to starter folder
-   and then run
-   `python server.py`
-   `streamlit run app.py`
-   Open http://localhost:8501 in your browser.   
-   <img width="549" alt="image" src="https://github.com/user-attachments/assets/86d04051-36f4-4f9a-9e70-da39340a72be" />
+2. add custom parasol workflow `parasol.ts` into the src folder
+3. run `npm run start src/parasol.ts` to start the nodejs server. expect to see output ✅ Server is running on http://localhost:3000
+4. (optional) open another terminal run `curl -X POST http://localhost:3000/evaluate \
+     -H "Content-Type: application/json" \
+     -d '{"text": "Test input for risk evaluation"}' ` for test
+5. open another terminal run `streamlit run streamlit_app.py` to play through a easy UI (http://localhost:8501). 
+   <img width="549" alt="image" src="./assets/UI.png" />

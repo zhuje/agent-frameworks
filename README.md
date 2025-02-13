@@ -20,6 +20,7 @@ them added to some persistent location so that I can re-use or modify them later
 - The demo should be built as a client-server web app (FastAPI for the server and Streamlit for the client, for example).
 
 ## Framework Prototypes
+- [Llama-Stack](./prototype/frameworks/llamastack/README.md)
 
 - [Autogen](./prototype/frameworks/autogen/README.md)
 - [BeeAI](./prototype/frameworks/bee/README.md)

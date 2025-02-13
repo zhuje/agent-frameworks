@@ -239,7 +239,7 @@ python rag.py
 ```
 
 ---
-## **7. Run a Llama-Stack Code Interpreter Agent**
+## **8. Run a Llama-Stack Code Interpreter Agent**
 Run the Python script (`coding-agent.py`):
 ```python
 import os
@@ -344,7 +344,17 @@ python code-agent.py
 ```
 ---
 
-## **9. Debugging Common Issues**
+## **9. Run a Custom Tool Agent**
+
+If you wish to add your own custom tool, you can follow the example in `custom-tool.py`. This example defines a simple calculator tool to perform arithmetic operations such as add, subtract, multiply and divide.
+
+Run the script:
+
+```bash
+python custom-tool.py
+```
+
+## **10. Debugging Common Issues**
 **Check if Podman is Running:**
 ```bash
 podman ps

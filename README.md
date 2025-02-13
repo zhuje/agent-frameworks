@@ -19,7 +19,7 @@ This project evaluates multiple agentic frameworks for automating workflows usin
 
 ## 🦙 Llama-Stack: Agentic RAG & Code Interpreter Example
 
-This `agent-frameworks/prototype/frameworks/llamastack` shows how to set up the Llama-Stack framework and run it with Podman as well as set up agentic RAG and the code interpreter.
+This agent-frameworks in `/prototype/frameworks/llamastack` shows how to set up the Llama-Stack framework and run it with Podman as well as set up agentic RAG and the code interpreter.
 
 ## 🏦 Use Case: Insurance Automation
 

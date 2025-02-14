@@ -101,40 +101,40 @@ llama-stack-client models list
 ---
 
 ## **7. Run a RAG Agent**
-If you want to enhance AI-generated responses with relevant retrieved information, you can follow the example provided in `rag.py`. This script demonstrates how to use a Retrieval-Augmented Generation (RAG) Agent to fetch external data and integrate it into its responses for improved accuracy and context awareness.
+If you want to enhance AI-generated responses with relevant retrieved information, you can follow the example provided in `scripts/rag.py`. This script demonstrates how to use a Retrieval-Augmented Generation (RAG) Agent to fetch external data and integrate it into its responses for improved accuracy and context awareness.
 
 Run the script:
 ```bash
-python rag.py
+python scripts/rag.py
 ```
 
 ---
 ## **8. Run a Llama-Stack Code Interpreter Agent**
-If you want to execute code using an AI-powered agent, you can follow the example provided in `coding-agent.py`. This script demonstrates how to use the Llama-Stack Code Interpreter Agent to process code inputs and return results in a natural language format.
+If you want to execute code using an AI-powered agent, you can follow the example provided in `scripts/coding-agent.py`. This script demonstrates how to use the Llama-Stack Code Interpreter Agent to process code inputs and return results in a natural language format.
 
 Run the script:
 ```bash
-python code-agent.py
+python scripts/code-agent.py
 ```
 ---
 ## **9. Run a build in web search Agent**
 
-If you wish to test around the web search tool with external web search API, you can follow the example in `tool_websearch.py`. This example modified based on exsiting web search tool from https://colab.research.google.com/github/meta-llama/llama-stack/blob/main/docs/getting_started.ipynb. Allow run it through podman follow same instruction.
+If you wish to test around the web search tool with external web search API, you can follow the example in `scripts/tool_websearch.py`. This example modified based on exsiting web search tool from https://colab.research.google.com/github/meta-llama/llama-stack/blob/main/docs/getting_started.ipynb. Allow run it through podman follow same instruction.
 
 Run the script:
 
 ```bash
-python tool_websearch.py
+python scripts/tool_websearch.py
 ```
 ---
 ## **10. Run a Custom Tool Agent**
 
-If you wish to add your own custom tool, you can follow the example in `custom-tool.py`. This example defines a simple calculator tool to perform arithmetic operations such as add, subtract, multiply and divide.
+If you wish to add your own custom tool, you can follow the example in `scripts/custom-tool.py`. This example defines a simple calculator tool to perform arithmetic operations such as add, subtract, multiply and divide.
 
 Run the script:
 
 ```bash
-python custom-tool.py
+python scripts/custom-tool.py
 ```
 
 ## **11. Debugging Common Issues**

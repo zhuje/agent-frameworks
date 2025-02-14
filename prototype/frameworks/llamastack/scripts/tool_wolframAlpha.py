@@ -13,7 +13,7 @@ load_dotenv()
 inference_model = os.getenv("INFERENCE_MODEL")
 llama_stack_port = os.getenv("LLAMA_STACK_PORT")
 ollama_url = os.getenv("OLLAMA_URL")
-tavily_search_api_key = os.environ["TAVILY_SEARCH_API_KEY"]
+wolfram_api_key=os.environ["WOLFRAM_ALPHA_API_KEY"]
 
 print(f"Model: {inference_model}")
 print(f"Llama Stack Port: {llama_stack_port}")
@@ -23,36 +23,27 @@ def create_http_client():
     from llama_stack_client import LlamaStackClient
 
     return LlamaStackClient(
-        base_url=f"http://localhost:{llama_stack_port}", # return LlamaStackClient(base_url="http://localhost:8321", timeout = 6000)
-        provider_data = {"tavily_search_api_key": tavily_search_api_key}  # according to https://llama-stack.readthedocs.io/en/latest/building_applications/tools.html
+        base_url=f"http://localhost:{llama_stack_port}", 
     )
 
 # Initialize the Llama Stack client, choosing between library or HTTP client
 client = create_http_client()  
 
-# Register Search tool group
-# according to https://llama-stack.readthedocs.io/en/latest/building_applications/tools.html
-client.toolgroups.register( 
-    toolgroup_id="builtin::websearch",
-    provider_id="tavily-search",
-    args={"max_results": 5},
-)
-
-print(client.toolgroups.list())
-
-# Below is modified from websearch example from https://colab.research.google.com/github/meta-llama/llama-stack/blob/main/docs/getting_started.ipynb
+# doc for wolfram_alpha is outdated. https://llama-stack.readthedocs.io/en/latest/building_applications/tools.html
+# here is new example of using wolfram_alpha tool based on some hints from PR: https://github.com/meta-llama/llama-stack/pull/33
 agent_config = AgentConfig(
     model=os.getenv("INFERENCE_MODEL"),
-    instructions="You are a helpful web search assistant, you can use websearch tool for unknown queries.",
-    toolgroups=["builtin::websearch"],
+    instructions="You are a helpful wolfram_alpha assistant, use wolfram_alpha tool as external source validation.",
+    toolgroups=["builtin::wolfram_alpha"],
+    wolfram_api_key=wolfram_api_key,  
     input_shields=[],
     output_shields=[],
     enable_session_persistence=False,
 )
 agent = Agent(client, agent_config)
 user_prompts = [
-    "Hello",
-    "Which teams played in the NBA western conference finals of 2024",
+    "Tell me 10 densest elemental metals",
+    "solve x^2 + 2x + 1 = 0",
 ]
 
 session_id = agent.create_session("test-session")

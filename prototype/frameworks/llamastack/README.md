@@ -10,6 +10,7 @@ Ensure you have the following installed:
 - **Python 3.10+**
 - **pip** (latest version)
 - **Ollama** ([Install Ollama](https://ollama.com/download))
+- **llama_stack_client >= 0.1.3**
 
 Verify installation:
 ```bash

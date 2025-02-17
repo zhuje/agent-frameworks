@@ -136,8 +136,17 @@ Run the script:
 ```bash
 python scripts/custom-tool.py
 ```
+## **Run a wolfram-alpha powered Agent**
 
-## **11. Debugging Common Issues**
+If you wish to test the Wolfram Alpha tool, you can follow the example in `tool_wolframAlpha.py`. This example is necessary to demonstrate how to build an agent based on Wolfram Alpha, as previous documentation examples are outdated. Run it through Podman following the same instructions.
+
+Run the script:
+
+```bash
+python tool_wolframAlpha.py
+```
+---
+## **Debugging Common Issues**
 **Check if Podman is Running:**
 ```bash
 podman ps

@@ -2,7 +2,7 @@
 This serves as a starting point to deploy `meta-llama/Llama-3.1-8B-Instruct` long term this should be handled by RHOAI.
 
 ## Requirements
-A secret must be created to allow for the vLLM server to pull in the model at startup time. 
+A secret must be created to allow for the vLLM server to pull in the model at startup time.
 
 ```
 oc create secret generic huggingface-secret --from-literal=HF_TOKEN=hf_values
@@ -37,4 +37,44 @@ To test the model is operating correctly.
         "max_tokens": 200,
         "temperature": 0
     }'
+```
+
+
+# Llama stack
+To run llama stack we can utlize the kubernetes svc address along with providing a configmap for the unique values we want to test.
+
+## Configmap
+A predefined configmap exists with entirely too many options but is a placeholder for what can be added. Create the configmap defining your unique settings. Then create the CM.
+
+```
+oc create -f llama-stack/configmap.yaml
+```
+
+
+## Deployment
+The deployment doesn't really have any unique values at this time. We will most likely learn more as we progress
+
+```
+oc create -f llama-stack/deployment.yaml
+```
+
+## Access
+This deployment isn't exposed so depending on where you need to access it from expose it accordingly.
+
+If you want to deploy a chat server and point to the llama-stack then run the following.
+
+```
+oc expose deployment/llamastack-deployment
+```
+
+If you want to access the llama-stack externally from the cluster then you must expose the svc which will create a route.
+
+```
+oc expose svc/llamastack-deployment
+```
+
+This will generate a route similar to this.
+
+```
+llamastack-deployment-llama-serve.apps.ocp-beta-test.nerc.mghpcc.org
 ```

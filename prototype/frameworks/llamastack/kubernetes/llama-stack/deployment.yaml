@@ -1,0 +1,43 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: llamastack-deployment
+  namespace: llama-serve
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: llamastack
+  template:
+    metadata:
+      labels:
+        app: llamastack
+    spec:
+      containers:
+        - name: llamastack
+          ports:
+            - containerPort: 8321
+          args:
+          - "--yaml-config"
+          - "/app/config.yaml"
+          image: llamastack/distribution-remote-vllm
+          env:
+            - name: INFERENCE_MODEL
+              value: "meta-llama/Llama-3.1-8B-Instruct"
+            - name: VLLM_URL
+              value: "http://vllm:8000/v1"
+          volumeMounts:
+            - name: run-config-volume
+              mountPath: /app
+            - name: llama-temp
+              mountPath: /.llama
+            - name: cache
+              mountPath: /.cache
+      volumes:
+        - name: run-config-volume
+          configMap:
+            name: run-config
+        - name: llama-temp
+          emptyDir: {}
+        - name: cache
+          emptyDir: {}

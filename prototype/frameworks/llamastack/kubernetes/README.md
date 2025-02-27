@@ -121,8 +121,45 @@ Now that everything is available in the OpenShift cluster, you can utilize the v
 
 ```
 export INFERENCE_MODEL="meta-llama/Llama-3.2-1B-Instruct"
-export LLAMA_STACK_PORT=8321
+export LLAMA_STACK_PORT=80
 export INFERENCE_ADDR=vllm-llama-serve.apps.ocp-beta-test.nerc.mghpcc.org
 ```
 
-(_**NOTE:**_ The INFERENCE_ADDR will be based on your OpenShift environemnt.)
+(_**NOTE:**_ The INFERENCE_ADDR will be based on your OpenShift environment.)
+
+## Testing the endpoints
+
+To test the Llamstack server, you can run any of the examples from [here](https://github.com/redhat-et/agent-frameworks/tree/main/prototype/frameworks/llamastack/scripts). Make sure to set the following env vars before executing the scripts:
+
+```
+LLAMA_STACK_PORT=80
+INFERENCE_MODEL="meta-llama/Llama-3.2-1B-Instruct"
+```
+
+You will also need to update the script with the correct connection settings for the deployed Llamstack server URL. For example, if you wish to run the [`custom-tool.py`](https://github.com/redhat-et/agent-frameworks/blob/main/prototype/frameworks/llamastack/scripts/custom-tool.py) script, you will need to update [this line](https://github.com/redhat-et/agent-frameworks/blob/main/prototype/frameworks/llamastack/scripts/custom-tool.py#L47) with the URL of your deployed Llamstack server.
+
+(_**NOTE:**_ This will be unique to your OpenShift environment.)
+
+```
+    client = LlamaStackClient(
+        base_url=f"http://<your llamastack server URL>:{os.getenv('LLAMA_STACK_PORT')}"
+    )
+```
+
+You can then simply run the script like so:
+
+```
+python custom-tool.py
+```
+
+If the script runs successfully, you should see an output in the logs like so:
+
+```
+inference> The result of 25 plus 15 is 40.
+DEBUG:httpcore.http11:receive_response_body.complete
+DEBUG:httpcore.http11:response_closed.started
+DEBUG:httpcore.http11:response_closed.complete
+DEBUG:httpcore.connection:close.started
+DEBUG:httpcore.connection:close.complete
+```
+

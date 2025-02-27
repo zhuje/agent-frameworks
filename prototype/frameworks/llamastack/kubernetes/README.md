@@ -43,11 +43,28 @@ To test the model is operating correctly.
 # Llama stack
 To run llama stack we can utlize the kubernetes svc address along with providing a configmap for the unique values we want to test.
 
+
+## Building Llama stack
+If you need to use a specific branch or even the main branch of the Llama stack repository in your container image the following steps should be ran.
+
+```
+git clone git@github.com:meta-llama/llama-stack.git
+python -m venv venv
+source venv/bin/activate
+pip install -U .
+USE_COPY_NOT_MOUNT=true LLAMA_STACK_DIR=. llama stack build --template remote-vllm --image-type container
+podman tag localhost/distribution-remote-vllm:dev quay.io/redhat-et/llama:2-27-2025
+podman push quay.io/redhat-et/llama:2-27-2025
+```
+
+Update the `deployment.yaml` file using the image generated above.
+
 ## Configmap
-A predefined configmap exists with entirely too many options but is a placeholder for what can be added. Create the configmap defining your unique settings. Then create the CM.
+A predefined configmap exists with entirely too many options but is a placeholder for what can be added. Create the configmap defining your unique settings. Then create the CM. The `template.yaml` file does not need to be modified. It contains the jinja chat template.
 
 ```
 oc create -f llama-stack/configmap.yaml
+oc create -f llama-stack/template.yaml
 ```
 
 

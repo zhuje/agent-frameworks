@@ -1,8 +1,7 @@
-apiVersion: v1
 kind: ConfigMap
+apiVersion: v1
 metadata:
   name: run-config
-  namespace: llama-serve
 data:
   config.yaml: |
     version: '2'
@@ -23,8 +22,8 @@ data:
         provider_type: remote::vllm
         config:
           url: ${env.VLLM_URL}
-          max_tokens: ${env.VLLM_MAX_TOKENS:4096}
-          api_token: ${env.VLLM_API_TOKEN:fake}
+          max_tokens: 4096
+          api_token: fake
       - provider_id: sentence-transformers
         provider_type: inline::sentence-transformers
         config: {}
@@ -75,8 +74,7 @@ data:
         provider_type: inline::meta-reference
         config:
           service_name: ${env.OTEL_SERVICE_NAME:llama-stack}
-          sinks: ${env.TELEMETRY_SINKS:console,otel,sqlite}
-          otel_endpoint: "http://localhost:4318/v1/traces"
+          sinks: ${env.TELEMETRY_SINKS:console,sqlite}
           sqlite_db_path: ${env.SQLITE_DB_PATH:~/.llama/distributions/remote-vllm/trace_store.db}
       tool_runtime:
       - provider_id: brave-search
@@ -123,4 +121,3 @@ data:
       provider_id: rag-runtime
     - toolgroup_id: builtin::code_interpreter
       provider_id: code-interpreter
-

@@ -2,7 +2,6 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: llamastack-deployment
-  namespace: llama-serve
 spec:
   replicas: 1
   selector:
@@ -14,30 +13,45 @@ spec:
         app: llamastack
     spec:
       containers:
-        - name: llamastack
-          ports:
-            - containerPort: 8321
-          args:
-          - "--yaml-config"
-          - "/app/config.yaml"
-          image: llamastack/distribution-remote-vllm
-          env:
-            - name: INFERENCE_MODEL
-              value: "meta-llama/Llama-3.1-8B-Instruct"
-            - name: VLLM_URL
-              value: "http://vllm:8000/v1"
-          volumeMounts:
-            - name: run-config-volume
-              mountPath: /app
-            - name: llama-temp
-              mountPath: /.llama
-            - name: cache
-              mountPath: /.cache
+      - args:
+        - --yaml-config
+        - /app-config/config.yaml
+        env:
+        - name: VLLM_MAX_TOKENS
+          value: "4096"
+        - name: INFERENCE_MODEL
+          value: meta-llama/Llama-3.2-3B-Instruct
+        - name: VLLM_URL
+          value: http://vllm:8000/v1
+        - name: VLLM_API_TOKEN
+          value: fake
+        image: quay.io/redhat-et/llama:2-27-2025
+        imagePullPolicy: Always
+        name: llamastack
+        ports:
+        - containerPort: 8321
+          protocol: TCP
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+        volumeMounts:
+        - mountPath: /app-config
+          name: run-config-volume
+        - mountPath: /.llama
+          name: llama-temp
+        - mountPath: /.cache
+          name: cache
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
       volumes:
-        - name: run-config-volume
-          configMap:
-            name: run-config
-        - name: llama-temp
-          emptyDir: {}
-        - name: cache
-          emptyDir: {}
+      - configMap:
+          defaultMode: 420
+          name: run-config
+        name: run-config-volume
+      - emptyDir: {}
+        name: llama-temp
+      - emptyDir: {}
+        name: cache

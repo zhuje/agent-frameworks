@@ -75,6 +75,19 @@ oc expose svc/llamastack-deployment
 
 This will generate a route similar to this.
 
+NOTE: This will be unique to your environment.
+
 ```
 llamastack-deployment-llama-serve.apps.ocp-beta-test.nerc.mghpcc.org
+```
+
+## Using the endpoints
+Now that everything is available in the OpenShift cluster you can utilize the vLLM instance and the Llama Stack server by performing the following.
+
+NOTE: The INFERENCE_ADDR will be based on your OpenShift environemnt.
+
+```
+export INFERENCE_MODEL="meta-llama/Llama-3.2-1B-Instruct"
+export LLAMA_STACK_PORT=8321
+export INFERENCE_ADDR=vllm-llama-serve.apps.ocp-beta-test.nerc.mghpcc.org
 ```

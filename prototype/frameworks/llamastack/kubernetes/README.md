@@ -44,7 +44,13 @@ To check if the model is running correctly, you can try the following `curl` com
         "temperature": 0
     }'
 ```
+# Guardrails
 
+To serve Llama Guard deploy the items within the safety-model directory.
+
+```
+oc apply -f safety-model
+```
 
 # Llamastack
 

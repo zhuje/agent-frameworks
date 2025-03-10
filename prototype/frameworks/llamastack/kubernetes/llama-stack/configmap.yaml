@@ -109,7 +109,9 @@ data:
       model_id: all-MiniLM-L6-v2
       provider_id: sentence-transformers
       model_type: embedding
-    shields: []
+    shields:
+    - shield_id: ${env.SAFETY_MODEL}
+      provider_id: llama-guard
     vector_dbs: []
     datasets: []
     scoring_fns: []

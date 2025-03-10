@@ -3,7 +3,7 @@ from llama_stack_client.lib.agents.event_logger import EventLogger
 from llama_stack_client.types.agent_create_params import AgentConfig
 from termcolor import cprint
 import os
-import sys
+from llama_stack_client import LlamaStackClient
 from dotenv import load_dotenv
 
 # Load .env file
@@ -16,39 +16,29 @@ ollama_url = os.getenv("OLLAMA_URL")
 tavily_search_api_key = os.environ["TAVILY_SEARCH_API_KEY"]
 wolfram_api_key=os.environ["WOLFRAM_ALPHA_API_KEY"]
 
-print(f"Model: {inference_model}")
-print(f"Llama Stack Port: {llama_stack_port}")
-print(f"Ollama URL: {ollama_url}")
-
-def create_http_client():
-    from llama_stack_client import LlamaStackClient
-
-    return LlamaStackClient(
-        base_url=f"http://localhost:{llama_stack_port}", # return LlamaStackClient(base_url="http://localhost:8321", timeout = 6000)
-        provider_data = {"tavily_search_api_key": tavily_search_api_key}  
-    )
 
 # Initialize the Llama Stack client, choosing between library or HTTP client
-client = create_http_client()  
+client = LlamaStackClient(
+        base_url=f"http://localhost:{llama_stack_port}", # return LlamaStackClient(base_url="http://localhost:8321", timeout = 6000)
+        provider_data = {"tavily_search_api_key": tavily_search_api_key,
+                         "wolfram_alpha_api_key": wolfram_api_key}  # according to https://llama-stack.readthedocs.io/en/latest/building_applications/tools.html
+    )  
 
 print(client.toolgroups.list())
 
-# Below is modified from websearch example from https://colab.research.google.com/github/meta-llama/llama-stack/blob/main/docs/getting_started.ipynb
-agent_config = AgentConfig(
+# `agent_config` is deprecated. Use inlined parameters instead.
+agent = Agent(
+    client, 
     model=os.getenv("INFERENCE_MODEL"),
     instructions="""
     You are a helpful tool calling assistant. 
-    There are three builtin tools: websearch, code_interpreter,wolfram_alpha. 
+    There are three builtin tools: websearch, code_interpreter, wolfram_alpha. 
     Select the best tool for each query and execute this query for accurate answer. 
     If there is a error, try another suitable tool.
     """,
-    toolgroups=["builtin::websearch",
-                "builtin::code_interpreter",
-                "builtin::wolfram_alpha"],
-    wolfram_api_key=wolfram_api_key,     
-    enable_session_persistence=False,
-)
-agent = Agent(client, agent_config)
+    tools=["builtin::websearch",
+           "builtin::code_interpreter",
+           "builtin::wolfram_alpha"],)
 user_prompts = [
     "Hello",
     "Tell me 10 densest elemental metals",

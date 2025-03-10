@@ -25,6 +25,8 @@ spec:
           value: http://vllm:8000/v1
         - name: VLLM_API_TOKEN
           value: fake
+        - name:  SAFETY_MODEL
+          value: meta-llama/Llama-Guard-3-8B
         image: quay.io/redhat-et/llama:2-27-2025
         imagePullPolicy: Always
         name: llamastack

@@ -29,7 +29,7 @@ client = LlamaStackClient(
 # `agent_config` is deprecated. Use inlined parameters instead.
 agent = Agent(
     client,
-    model=os.getenv("INFERENCE_MODEL"),
+    model=inference_model,
     instructions="You are a helpful wolfram_alpha assistant, must use builtin::wolfram_alpha tool as external source validation.",
     tools=["builtin::wolfram_alpha"],
 )

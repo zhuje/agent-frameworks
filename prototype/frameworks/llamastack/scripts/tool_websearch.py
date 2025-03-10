@@ -28,7 +28,7 @@ client = LlamaStackClient(
 # `agent_config` is deprecated. Use inlined parameters instead.
 agent = Agent(
     client, 
-    model=os.getenv("INFERENCE_MODEL"),
+    model=inference_model,
     instructions=(
         "You are a highly knowledgeable and helpful web search assistant. "
         "Your primary goal is to provide accurate and reliable information to the user. "

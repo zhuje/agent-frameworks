@@ -29,7 +29,7 @@ print(client.toolgroups.list())
 # `agent_config` is deprecated. Use inlined parameters instead.
 agent = Agent(
     client, 
-    model=os.getenv("INFERENCE_MODEL"),
+    model=inference_model,
     instructions="""
     You are a helpful tool calling assistant. 
     There are three builtin tools: websearch, code_interpreter, wolfram_alpha. 

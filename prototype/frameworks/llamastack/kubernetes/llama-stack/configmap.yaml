@@ -24,6 +24,12 @@ data:
           url: ${env.VLLM_URL}
           max_tokens: 4096
           api_token: fake
+      - provider_id: vllm-safety
+        provider_type: remote::vllm
+        config:
+          url: ${env.SAFETY_VLLM_URL}
+          max_tokens: 4096
+          api_token: fake
       - provider_id: sentence-transformers
         provider_type: inline::sentence-transformers
         config: {}
@@ -103,6 +109,10 @@ data:
     - metadata: {}
       model_id: ${env.INFERENCE_MODEL}
       provider_id: vllm-inference
+      model_type: llm
+    - metadata: {}
+      model_id: ${env.SAFETY_MODEL}
+      provider_id: vllm-safety
       model_type: llm
     - metadata:
         embedding_dimension: 384

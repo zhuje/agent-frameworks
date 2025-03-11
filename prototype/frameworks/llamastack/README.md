@@ -126,7 +126,7 @@ python scripts/code-agent.py
 ---
 ## **9. Run a build in web search Agent**
 
-If you wish to test around the web search tool with external web search API, you can follow the example in `scripts/tool_websearch.py`. This example modified based on exsiting web search tool from https://colab.research.google.com/github/meta-llama/llama-stack/blob/main/docs/getting_started.ipynb. Allow run it through podman follow same instruction.
+If you wish to test around the web search tool with external web search API, you can follow the example in `scripts/tool_websearch.py`. 
 
 Run the script:
 
@@ -199,7 +199,7 @@ Access the Jaeger UI to visualize traces by navigating to: http://localhost:1668
 ---
 ## **Run a wolfram-alpha powered Agent**
 
-If you wish to test the Wolfram Alpha tool, you can follow the example in `tool_wolframAlpha.py`. This example is necessary to demonstrate how to build an agent based on Wolfram Alpha, as previous documentation examples are outdated. Run it through Podman following the same instructions.
+If you wish to test the Wolfram Alpha tool, you can follow the example in `tool_wolframAlpha.py`. This example is necessary to demonstrate how to build an agent based on Wolfram Alpha, as previous documentation examples are outdated. Run it through Podman following the same instructions. The current script works only with v0.1.6. For previous versions, you need to add the Wolfram configuration in `run.yaml`.
 
 Run the script:
 

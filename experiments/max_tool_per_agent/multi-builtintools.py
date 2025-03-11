@@ -9,6 +9,18 @@ from dotenv import load_dotenv
 # Load .env file
 load_dotenv()
 
+# this script is tested for llama-stack version 0.1.6
+"""
+How to run:
+step 1. ollama run llama3.2:3b-instruct-fp16 --keepalive 60m
+step 2. export INFERENCE_MODEL="meta-llama/Llama-3.2-3B-Instruct"
+step 3. export LLAMA_STACK_PORT=8321
+step 4. llama stack run --image-type conda ~/llama-stack/llama_stack/templates/ollama/run.yaml
+    (I'm using conda env, follow this if not using conda, https://llama-stack.readthedocs.io/en/latest/distributions/building_distro.html)
+step 5. run the example script
+"""
+
+
 # Access the environment variables
 inference_model = os.getenv("INFERENCE_MODEL")
 llama_stack_port = os.getenv("LLAMA_STACK_PORT")

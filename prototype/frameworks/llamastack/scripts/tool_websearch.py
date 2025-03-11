@@ -9,6 +9,8 @@ from dotenv import load_dotenv
 # Load .env file
 load_dotenv()
 
+# this script is tested for llama-stack version 0.1.6
+
 # Access the environment variables
 inference_model = os.getenv("INFERENCE_MODEL")
 llama_stack_port = os.getenv("LLAMA_STACK_PORT")

@@ -28,8 +28,13 @@ MAX_CHUNKS = 2
 
 
 def create_http_client():
+    """Creates an HTTP client for communicating with the Llama Stack server."""
     from llama_stack_client import LlamaStackClient
-    return LlamaStackClient(base_url=f"http://localhost:{LLAMA_STACK_PORT}")
+    endpoint = os.getenv("LLAMA_STACK_ENDPOINT")
+    base_url = endpoint if endpoint else f"http://localhost:{LLAMA_STACK_PORT}"
+    return LlamaStackClient(
+        base_url=base_url
+    )
 
 
 def create_library_client(template="ollama"):
@@ -39,7 +44,7 @@ def create_library_client(template="ollama"):
     return client
 
 
-client = create_library_client()  # or create_http_client() depending on the environment
+client = create_http_client()  # or create_http_client() depending on the environment
 
 # Load documents for RAG
 documents = [

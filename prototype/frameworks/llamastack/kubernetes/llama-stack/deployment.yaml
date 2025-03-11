@@ -29,6 +29,8 @@ spec:
           value: meta-llama/Llama-Guard-3-8B
         - name:  SAFETY_VLLM_URL
           value: http://safety.llama-serve.svc.cluster.local:8000/v1
+        - name: OTEL_ENDPOINT
+          value: http://otlp-receiver-collector.observability.svc.cluster.local:4318/v1/traces
         image: quay.io/redhat-et/llama:2-27-2025
         imagePullPolicy: Always
         name: llamastack

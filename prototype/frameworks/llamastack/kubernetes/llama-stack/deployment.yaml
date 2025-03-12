@@ -31,7 +31,7 @@ spec:
           value: http://safety.llama-serve.svc.cluster.local:8000/v1
         - name: OTEL_ENDPOINT
           value: http://otlp-receiver-collector.observability.svc.cluster.local:4318/v1/traces
-        image: quay.io/redhat-et/llama:2-27-2025
+        image: llamastack/distribution-remote-vllm:0.1.6 
         imagePullPolicy: Always
         name: llamastack
         ports:

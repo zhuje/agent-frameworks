@@ -11,13 +11,13 @@ from llama_stack_client.types import Document
 load_dotenv()
 
 # Configuration
-LLAMA_STACK_PORT = os.environ.get("LLAMA_STACK_PORT", "8321")
+LLAMA_STACK_PORT = os.environ.get("LLAMA_STACK_PORT", "80")
 INFERENCE_MODEL = os.environ.get("INFERENCE_MODEL", "meta-llama/Llama-3.2-3B-Instruct")
 
-FILE_PATHS = ["document/cake.rst", 
-              "document/car.rst", 
-              "document/house.rst", 
-              "document/technology.rst"]
+FILE_PATHS = ["documents/cake.rst", 
+              "documents/car.rst", 
+              "documents/house.rst", 
+              "documents/technology.rst"]
 VECTOR_DB_PROVIDER = "faiss"
 EMBEDDING_MODEL = "all-MiniLM-L6-v2"
 EMBEDDING_DIMENSION = 384

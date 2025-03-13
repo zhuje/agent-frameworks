@@ -1,2 +1,3 @@
-prototype/frameworks/llamastack/.env
-experiments/max_tool_per_agent/.env
+**/venv/**
+**/llama-stack-env/**
+**/.env**

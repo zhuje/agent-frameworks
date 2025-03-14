@@ -11,7 +11,7 @@ logger = logging.getLogger(__name__)
 
 
 async def run_main():
-    endpoint = os.getenv("LLAMASTACK_ENDPOINT")
+    endpoint = os.getenv("LLAMA_STACK_ENDPOINT")
     port = os.getenv("LLAMA_STACK_PORT")
     base_url = endpoint if endpoint else f"http://localhost:{port}" 
 

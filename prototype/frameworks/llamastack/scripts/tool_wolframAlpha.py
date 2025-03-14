@@ -6,29 +6,23 @@ import os
 from llama_stack_client import LlamaStackClient
 from dotenv import load_dotenv
 
-# Load .env file
 load_dotenv()
 
-# this script is tested for llama-stack version 0.1.6
 
-# Access the environment variables
 inference_model = os.getenv("INFERENCE_MODEL")
-llama_stack_port = os.getenv("LLAMA_STACK_PORT")
-ollama_url = os.getenv("OLLAMA_URL")
 wolfram_api_key=os.environ["WOLFRAM_ALPHA_API_KEY"]
 
 print(f"Model: {inference_model}")
-print(f"Llama Stack Port: {llama_stack_port}")
-print(f"Ollama URL: {ollama_url}")
 
-# Initialize the Llama Stack client, choosing between library or HTTP client
-client = LlamaStackClient(
-        base_url=f"http://localhost:{llama_stack_port}", 
+endpoint = os.getenv("LLAMA_STACK_ENDPOINT")
+port = os.getenv("LLAMA_STACK_PORT")
+base_url = endpoint if endpoint else f"http://localhost:{port}"
+
+client =  LlamaStackClient(
+        base_url=base_url,
         provider_data = {"wolfram_alpha_api_key": wolfram_api_key}
-    )  
+)
 
-# doc for wolfram_alpha is outdated. https://llama-stack.readthedocs.io/en/latest/building_applications/tools.html
-# `agent_config` is deprecated. Use inlined parameters instead.
 agent = Agent(
     client,
     model=inference_model,

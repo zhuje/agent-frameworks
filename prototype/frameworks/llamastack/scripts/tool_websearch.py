@@ -1,6 +1,5 @@
 from llama_stack_client.lib.agents.agent import Agent
 from llama_stack_client.lib.agents.event_logger import EventLogger
-from llama_stack_client.types.agent_create_params import AgentConfig
 from termcolor import cprint
 import os
 from llama_stack_client import LlamaStackClient
@@ -8,16 +7,12 @@ from dotenv import load_dotenv
 
 load_dotenv()
 
-
 inference_model = os.getenv("INFERENCE_MODEL")
-llama_stack_port = os.getenv("LLAMA_STACK_PORT")
-tavily_search_api_key = os.environ["TAVILY_SEARCH_API_KEY"]
-
-print(f"Model: {inference_model}")
-
+tavily_search_api_key = os.getenv("TAVILY_SEARCH_API_KEY")
 endpoint = os.getenv("LLAMA_STACK_ENDPOINT")
 port = os.getenv("LLAMA_STACK_PORT")
 base_url = endpoint if endpoint else f"http://localhost:{port}"
+print(f"Model: {inference_model}")
 
 client =  LlamaStackClient(
         base_url=base_url,

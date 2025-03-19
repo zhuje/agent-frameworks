@@ -1,8 +1,6 @@
 # Code bellow written following examples here: https://llama-stack.readthedocs.io/en/latest/building_applications
 from llama_stack_client.lib.agents.agent import Agent
 from llama_stack_client.lib.agents.event_logger import EventLogger
-from llama_stack_client.types.agent_create_params import AgentConfig
-from llama_stack_client.types.shared_params.url import URL
 from llama_stack_client import LlamaStackClient
 from termcolor import cprint
 import argparse
@@ -52,7 +50,7 @@ if "mcp::custom_tool" not in registered_toolgroups:
     client.toolgroups.register(
         toolgroup_id="mcp::custom_tool",
         provider_id="model-context-protocol",
-        mcp_endpoint=URL(uri=mcp_url)
+        mcp_endpoint={"uri":mcp_url},
         )
 mcp_tools = [t.identifier for t in client.tools.list(toolgroup_id="mcp::custom_tool")]
 

@@ -2,7 +2,6 @@
 # Code bellow written following examples here: https://llama-stack.readthedocs.io/en/latest/building_applications/rag.html
 from llama_stack_client.lib.agents.agent import Agent
 from llama_stack_client.lib.agents.event_logger import EventLogger
-from llama_stack_client.types.shared_params.url import URL
 from llama_stack_client.types import Document
 
 from llama_stack_client import LlamaStackClient
@@ -11,8 +10,6 @@ import argparse
 import logging
 import os
 from dotenv import load_dotenv
-
-from client_tool import torchtune
 
 load_dotenv()
 
@@ -41,7 +38,7 @@ if args.remote:
 else:
     base_url="http://localhost:8321"
     mcp_url="http://host.containers.internal:8000/sse"
-    vdb_provider="sqilte-vec"
+    vdb_provider="faiss"
 
 client = LlamaStackClient(base_url=base_url)
 logger.info(f"Connected to Llama Stack server @ {base_url} \n")
@@ -56,7 +53,7 @@ if "mcp::custom_tool" not in registered_toolgroups:
     client.toolgroups.register(
         toolgroup_id="mcp::custom_tool",
         provider_id="model-context-protocol",
-        mcp_endpoint=URL(uri=mcp_url)
+        mcp_endpoint={"uri":mcp_url},
         )
 mcp_tools = [t.identifier for t in client.tools.list(toolgroup_id="mcp::custom_tool")]
 
@@ -66,7 +63,7 @@ if "my_documents" not in vector_db_ids:
     vector_db_id="my_documents",
     embedding_model="all-MiniLM-L6-v2",
     embedding_dimension=384,
-    provider_id="vdb_provider",
+    provider_id=vdb_provider,
     )
 
     urls = ["https://raw.githubusercontent.com/meta-llama/llama-stack/refs/heads/main/README.md"]
@@ -110,8 +107,8 @@ agent = Agent(
 )
 
 if args.auto:
-    user_prompts = ["""Please use the knowledge search tool to tell me what you know about llama Stack""",
-                    """Give me a random number between 1 and 1010"""]
+    user_prompts = ["""Please use the knowledge search tool to tell me what you know about Llama Stack.""",
+                    """Give me a random number between 1 and 1010."""]
     session_id = agent.create_session(session_name="Auto_demo")
     for prompt in user_prompts:
         turn_response = agent.create_turn(

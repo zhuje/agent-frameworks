@@ -3,16 +3,11 @@
 
 from llama_stack_client.lib.agents.react.agent import ReActAgent
 from llama_stack_client.lib.agents.event_logger import EventLogger
-from llama_stack_client.types.agent_create_params import AgentConfig
-from llama_stack_client.types.shared_params.url import URL
 from llama_stack_client import LlamaStackClient
-from termcolor import cprint
 import argparse
 import logging
 import os
 from dotenv import load_dotenv
-
-from client_tool import torchtune
 
 load_dotenv()
 
@@ -48,7 +43,7 @@ logger.info(f"Connected to Llama Stack server @ {base_url} \n")
 agent = ReActAgent(
     client,
     model,
-    builtin_toolgroups=["mcp::custom_tool"],
+    tools=["mcp::custom_tool"],
     json_response_format=True,
 )
 

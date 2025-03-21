@@ -1,12 +1,7 @@
-import anyio
-import click
-import httpx
 import json
 import yaml
+import httpx
 from typing import Any, Dict, List, Optional, Union
-import mcp.types as types
-from mcp.server.lowlevel import Server
-from pydantic import BaseModel, Field
 
 class OpenAPISpec:
     """Class for parsing and working with OpenAPI specifications."""
@@ -112,7 +107,7 @@ class OpenAPISpec:
             'required': required
         }
 
-class MCPOpenAPITools:
+class OpenAPIToolsManager:
     """Class for creating MCP tools from OpenAPI specifications."""
     
     def __init__(self, spec_path: str):
@@ -136,22 +131,16 @@ class MCPOpenAPITools:
         if self.client:
             await self.client.aclose()
     
-    def get_mcp_tools(self) -> List[types.Tool]:
-        """Generate MCP tools from the OpenAPI spec."""
-        tools = []
-        
-        for endpoint in self.api_spec.get_endpoints():
-            tool = types.Tool(
-                name=endpoint['operation_id'],
-                description=endpoint.get('summary', '') or endpoint.get('description', '') or f"Call {endpoint['method'].upper()} {endpoint['path']}",
-                inputSchema=self.api_spec.generate_input_schema(endpoint)
-            )
-            tools.append(tool)
-        
-        return tools
+    def get_endpoints(self) -> List[Dict[str, Any]]:
+        """Get all endpoints from the OpenAPI spec."""
+        return self.api_spec.get_endpoints()
     
-    async def execute_tool(self, name: str, arguments: Dict[str, Any]) -> List[Union[types.TextContent, types.ImageContent, types.EmbeddedResource]]:
-        """Execute a tool by making the appropriate API call."""
+    def generate_input_schema(self, endpoint: Dict[str, Any]) -> Dict[str, Any]:
+        """Generate JSON Schema for the endpoint parameters."""
+        return self.api_spec.generate_input_schema(endpoint)
+    
+    async def execute_api_call(self, name: str, arguments: Dict[str, Any]) -> Dict[str, Any]:
+        """Execute an API call by making the appropriate HTTP request."""
         # Find the endpoint that corresponds to this tool name
         matching_endpoints = [
             e for e in self.api_spec.get_endpoints() 
@@ -159,7 +148,7 @@ class MCPOpenAPITools:
         ]
         
         if not matching_endpoints:
-            raise ValueError(f"Unknown tool: {name}")
+            raise ValueError(f"Unknown endpoint: {name}")
         
         endpoint = matching_endpoints[0]
         path = endpoint['path']
@@ -208,89 +197,12 @@ class MCPOpenAPITools:
         content_type = response.headers.get('content-type', '')
         
         if 'application/json' in content_type:
-            return [types.TextContent(type="text", text=json.dumps(response.json(), indent=2))]
-        elif 'image/' in content_type:
-            return [types.ImageContent(type="image", data=response.content)]
+            return {
+                'content_type': 'application/json',
+                'data': response.json()
+            }
         else:
-            return [types.TextContent(type="text", text=response.text)]
-
-@click.command()
-@click.argument('spec_path')
-@click.option("--port", default=8000, help="Port to listen on for SSE")
-@click.option(
-    "--transport",
-    type=click.Choice(["stdio", "sse"]),
-    default="stdio",
-    help="Transport type",
-)
-def main(spec_path: str, port: int, transport: str) -> int:
-    """Create MCP tools from an OpenAPI specification."""
-    app = Server("mcp-openapi-tools")
-    tools_manager = MCPOpenAPITools(spec_path)
-    
-    # Initialize the HTTP client before running
-    async def initialize_client():
-        await tools_manager.initialize_client()
-        
-    # Clean up the HTTP client after running
-    async def cleanup_client():
-        await tools_manager.close_client()
-    
-    @app.call_tool()
-    async def call_tool(
-        name: str, arguments: dict
-    ) -> list[types.TextContent | types.ImageContent | types.EmbeddedResource]:
-        return await tools_manager.execute_tool(name, arguments)
-    
-    @app.list_tools()
-    async def list_tools() -> list[types.Tool]:
-        return tools_manager.get_mcp_tools()
-    
-    if transport == "sse":
-        from mcp.server.sse import SseServerTransport
-        from starlette.applications import Starlette
-        from starlette.routing import Mount, Route
-        
-        sse = SseServerTransport("/messages/")
-        
-        async def handle_sse(request):
-            await initialize_client()
-            try:
-                async with sse.connect_sse(
-                    request.scope, request.receive, request._send
-                ) as streams:
-                    await app.run(
-                        streams[0], streams[1], app.create_initialization_options()
-                    )
-            finally:
-                await cleanup_client()
-        
-        starlette_app = Starlette(
-            debug=True,
-            routes=[
-                Route("/sse", endpoint=handle_sse),
-                Mount("/messages/", app=sse.handle_post_message),
-            ],
-        )
-        
-        import uvicorn
-        uvicorn.run(starlette_app, host="0.0.0.0", port=port)
-    else:
-        from mcp.server.stdio import stdio_server
-        
-        async def arun():
-            await initialize_client()
-            try:
-                async with stdio_server() as streams:
-                    await app.run(
-                        streams[0], streams[1], app.create_initialization_options()
-                    )
-            finally:
-                await cleanup_client()
-        
-        anyio.run(arun)
-    
-    return 0
-
-if __name__ == "__main__":
-    main()
+            return {
+                'content_type': content_type,
+                'data': response.text
+            }

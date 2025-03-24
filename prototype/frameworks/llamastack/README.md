@@ -124,7 +124,7 @@ If you want to execute code using an AI-powered agent, you can follow the exampl
 
 Run the script:
 ```bash
-python scripts/code-agent.py
+python scripts/coding-agent.py
 ```
 ---
 ## **9. Run a build in web search Agent**

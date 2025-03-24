@@ -92,7 +92,10 @@ Verify installation:
 ```bash
 pip list | grep llama-stack-client
 ```
-
+Install required libraries:
+```bash
+pip install -r requirements.txt
+```
 ---
 
 ## **6. Configure the Client**

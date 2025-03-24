@@ -54,6 +54,8 @@ spec:
         volumeMounts:
         - mountPath: /.cache
           name: hf-cache
+        - mountPath: /.triton
+          name: triton
         - mountPath: /app
           name: chat-template
         - mountPath: /.config
@@ -66,6 +68,8 @@ spec:
       volumes:
       - emptyDir: {}
         name: hf-cache
+      - emptyDir:{}
+        name: triton
       - configMap:
           defaultMode: 420
           name: template

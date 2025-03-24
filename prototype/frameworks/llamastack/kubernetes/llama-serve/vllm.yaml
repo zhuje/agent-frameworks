@@ -68,7 +68,7 @@ spec:
       volumes:
       - emptyDir: {}
         name: hf-cache
-      - emptyDir:{}
+      - emptyDir: {}
         name: triton
       - configMap:
           defaultMode: 420

@@ -25,6 +25,10 @@ spec:
           value: http://vllm:8000/v1
         - name: VLLM_API_TOKEN
           value: fake
+        - name: GRANITE_URL
+          value: http://granite:8000/v1
+        - name: GRANITE_MODEL
+          value: ibm-granite/granite-20b-functioncalling
         - name:  SAFETY_MODEL
           value: meta-llama/Llama-Guard-3-8B
         - name:  SAFETY_VLLM_URL

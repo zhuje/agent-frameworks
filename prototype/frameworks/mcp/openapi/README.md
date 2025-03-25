@@ -3,4 +3,4 @@
 pip install -r requirements.txt
 
 ### Run the MCP OpenAPI tool server with your remote OpenAPI spec
-python mcp_server.py http://localhost:5001/openapi.json --transport sse
+python mcp_server.py http://localhost:8321/openapi.json --transport sse

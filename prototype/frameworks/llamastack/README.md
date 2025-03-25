@@ -92,7 +92,10 @@ Verify installation:
 ```bash
 pip list | grep llama-stack-client
 ```
-
+Install required libraries:
+```bash
+pip install -r requirements.txt
+```
 ---
 
 ## **6. Configure the Client**
@@ -121,12 +124,29 @@ If you want to execute code using an AI-powered agent, you can follow the exampl
 
 Run the script:
 ```bash
-python scripts/code-agent.py
+python scripts/coding-agent.py
 ```
 ---
 ## **9. Run a build in web search Agent**
 
 If you wish to test around the web search tool with external web search API, you can follow the example in `scripts/tool_websearch.py`. 
+
+You will need to get a Tavily Search dev API key for this example, from [Tavily Search](https://tavily.com/). Then export it as an environment variable:
+```bash
+export $TAVILY_SEARCH_API_KEY=<your dev API key>
+```
+
+Then modify your podman run command to add the API key:
+```bash
+podman run --privileged -it \
+  -p $LLAMA_STACK_PORT:$LLAMA_STACK_PORT \
+  -v ~/.llama:/root/.llama \
+  --env INFERENCE_MODEL=$INFERENCE_MODEL \
+  --env TAVILY_SEARCH_API_KEY=$TAVILY_SEARCH_API_KEY \
+  --env OLLAMA_URL=http://host.containers.internal:11434 \
+  llamastack/distribution-ollama \
+  --port $LLAMA_STACK_PORT
+```
 
 Run the script:
 

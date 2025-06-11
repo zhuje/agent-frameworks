@@ -4,4 +4,18 @@ version = "0.1.0"
 description = "Add your description here"
 readme = "README.md"
 requires-python = ">=3.12"
-dependencies = []
+dependencies = [
+    "dotenv>=0.9.9",
+    "fire>=0.7.0",
+    "llama-stack-client>=0.2.10",
+    "requests>=2.32.4",
+    "termcolor>=3.1.0",
+]
+
+[dependency-groups]
+dev = [
+    "mcp-demo",
+]
+
+[tool.uv.sources]
+mcp-demo = { workspace = true }

@@ -17,6 +17,7 @@ def approve_score(score: int) -> str:
     """
     return "Approved" if score > 50 else "Denied"
 
+# JZ: HOMEWORK add another tool here! 
 
 if __name__ == "__main__":
     # Initialize and run the server

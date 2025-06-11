@@ -7,8 +7,8 @@ ollama pull llama3.2:3b
 ollama run llama3.2:3b --keepalive 60m
 
 # Setup Virtual environment 
-uv init # create a condition around this to check if already initiatlized 
-uv sync --python 3.10
+# uv init # create a condition around this to check if already initiatlized 
+uv sync 
 source .venv/bin/activate
 
 # 
@@ -30,7 +30,7 @@ docker_cmd="docker run -it \
     --pull always \
     -p $LLAMA_STACK_PORT:$LLAMA_STACK_PORT \
     -v ~/.llama:/root/.llama \
-    llamastack/distribution-ollama \
+    llamastack/distribution-ollama:0.2.7 \
     --port $LLAMA_STACK_PORT \
     --env INFERENCE_MODEL=$INFERENCE_MODEL \
     --env OLLAMA_URL=http://host.docker.internal:11434"

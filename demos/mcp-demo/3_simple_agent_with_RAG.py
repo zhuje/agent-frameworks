@@ -37,7 +37,7 @@ if args.remote:
     vdb_provider = os.getenv("REMOTE_VDB_PROVIDER")
 else:
     base_url="http://localhost:8321"
-    mcp_url="http://host.containers.internal:8000/sse"
+    mcp_url="http://host.docker.internal:8000/sse"
     vdb_provider="faiss"
 
 client = LlamaStackClient(base_url=base_url)

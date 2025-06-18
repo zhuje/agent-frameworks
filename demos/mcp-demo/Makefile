@@ -12,10 +12,14 @@ run_mcp_container:
 
 setup_local:
 	ollama run llama3.2:3b-instruct-fp16 --keepalive 160m &
-	podman run -it -p 8321:8321 -v ~/.llama:/root/.llama localhost/distribution-ollama:0.1.7 --port 8321 --env INFERENCE_MODEL="meta-llama/Llama-3.2-3B-Instruct" --env OLLAMA_URL=http://host.containers.internal:11434 
+	podman run -it -p 8321:8321 -v ~/.llama:/root/.llama localhost/distribution-ollama:0.1.7 --port 8321 --env INFERENCE_MODEL="meta-llama/Llama-3.2-3B-Instruct" --env OLLAMA_URL=http://host.docker.internal:11434 
 
-run_server: 
+run_llamastack_server: 
 	./run_server_llamastack.sh
 
-run_client: 
+run_llamastack_client: 
 	./run_client_llamastack.sh
+
+run_agent_simple1:
+	uv sync && source .venv/bin/activate && python 1_simple_agent.py
+

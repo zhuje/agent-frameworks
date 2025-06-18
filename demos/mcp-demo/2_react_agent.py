@@ -34,7 +34,7 @@ if args.remote:
     mcp_url = os.getenv("REMOTE_MCP_URL")
 else:
     base_url="http://localhost:8321"
-    mcp_url="http://host.containers.internal:8000/sse"
+    mcp_url="http://host.docker.internal:8000/sse"
 
 client = LlamaStackClient(base_url=base_url)
 logger.info(f"Connected to Llama Stack server @ {base_url} \n")

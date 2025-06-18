@@ -17,7 +17,12 @@ def approve_score(score: int) -> str:
     """
     return "Approved" if score > 50 else "Denied"
 
-# JZ: HOMEWORK add another tool here! 
+# # JZ: HOMEWORK add another tool here!
+@mcp.tool()
+def choose_icecream(ice_creams: list[str]): 
+    """I can be used to help choose a random ice cream flavor"""
+    return random.choice(ice_creams)
+
 
 if __name__ == "__main__":
     # Initialize and run the server

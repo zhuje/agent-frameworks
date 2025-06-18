@@ -35,7 +35,7 @@ if args.remote:
     mcp_url = os.getenv("REMOTE_MCP_URL")
 else:
     base_url="http://localhost:8321"
-    mcp_url="http://host.docker.internal:8000/sse" # JZ: create a function to get container enginer and change from docker vs. podman vs. linux etc.
+    mcp_url="http://host.docker.internal:8000/sse" # JZ: create a function to get container enginer and change from docker vs. podman 
 
 client = LlamaStackClient(base_url=base_url)
 logger.info(f"Connected to Llama Stack server @ {base_url} \n")
@@ -46,11 +46,13 @@ client.toolgroups.unregister(
         toolgroup_id="mcp::custom_tool",
 )
 
+print("unregistered")
+
 # Get tool info and register tools
 registered_tools = client.tools.list()
 # registered_tools_identifiers = [t.identifier for t in registered_tools]
 registered_toolgroups = [t.toolgroup_id for t in registered_tools]
-print(registered_toolgroups)
+print(f'REGISTERED TOOL GROUPS: {registered_toolgroups}')
 
 if "mcp::custom_tool" not in registered_toolgroups:
     # Register MCP tools

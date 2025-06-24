@@ -21,5 +21,5 @@ run_llamastack_client:
 	./run_client_llamastack.sh
 
 run_agent_simple1:
-	uv sync && source .venv/bin/activate && python 1_simple_agent.py
+	uv sync && source .venv/bin/activate && python 1_simple_agent.py 
 

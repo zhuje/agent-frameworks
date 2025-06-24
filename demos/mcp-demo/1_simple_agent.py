@@ -75,6 +75,7 @@ agent = Agent(
     instructions = """You are a helpful assistant. You have access to a number of tools.
     Whenever a tool is called, be sure return the Response in a friendly and helpful tone.
     When you are asked to search the web you must use a tool.
+    When I ask about ice cream you MUST use the choose_icecream tool! 
     """ ,
     tools=["mcp::custom_tool", torchtune],
     tool_config={"tool_choice":"auto"}

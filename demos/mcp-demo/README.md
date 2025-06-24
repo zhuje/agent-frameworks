@@ -9,5 +9,5 @@
 1. `make run_llamastack_server` (llama stack )
 2. in a seperate termianl `make run_llamastack_client` (llama stack )
 3. in a seperate terminal `make run_mcp`
-4. in a seperate terminal `make agent_simple1`
+4. in a seperate terminal `make run_agent_simple1`
 

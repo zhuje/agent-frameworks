@@ -54,7 +54,6 @@ async def get_dog_photo():
 
     url = data["url"]
     webbrowser.open(url, new=2)
-    return data.url
 
 @mcp.tool()
 async def get_alerts(state: str) -> str:

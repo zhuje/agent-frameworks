@@ -2,7 +2,7 @@ from typing import Any
 from mcp.server.fastmcp import FastMCP
 import httpx
 import random
-
+import webbrowser
 
 mcp = FastMCP("Demo")
 
@@ -33,6 +33,28 @@ Severity: {props.get('severity', 'Unknown')}
 Description: {props.get('description', 'No description available')}
 Instructions: {props.get('instruction', 'No specific instructions provided')}
 """
+
+async def make_request(url: str): 
+    """Make a request"""
+    async with httpx.AsyncClient() as client:
+        try:
+            response = await client.get(url, timeout=30.0)
+            response.raise_for_status()
+            return response.json()
+        except Exception:
+            return None
+
+@mcp.tool() 
+async def get_dog_photo():
+    """Opens the default browser to show a photo of a dog"""
+    data = await make_request("https://random.dog/woof.json")
+
+    if not data["url"]:
+        return "Unable to fetch dog photos"
+
+    url = data["url"]
+    webbrowser.open(url, new=2)
+    return data.url
 
 @mcp.tool()
 async def get_alerts(state: str) -> str:
